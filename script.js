@@ -103,12 +103,20 @@ const words = [
 
 const writearea = document.getElementById("text-area");
 const tryagainbtn = document.getElementById("button");
-const timeleft = document.getElementById("timer");
+const timerelement = document.getElementById("timer");
 const finalscr = document.getElementById("final-score");
+const finalmessage = document.getElementById("final-msg");
 let totaltyped = "";
 let currentcharindex = 0;
 let errors = 0;
 let Longtext = generatelongtext();
+let timeleft = 6;
+let timerinterval;
+let typingstarted = false;
+
+writearea.textContent = Longtext;
+
+// Shuffle array function
 function shufflearray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -116,13 +124,46 @@ function shufflearray(array) {
   }
   return array;
 }
-
+// Generate long list
 function generatelongtext() {
   const longText = shufflearray([...words]);
   return longText.join(" ");
 }
-writearea.textContent = Longtext;
+// Timer function
+function starttimer() {
+  if (!typingstarted) {
+    typingstarted = true;
+    timerinterval = setInterval(() => {
+      timeleft--;
+      timerelement.textContent = `Time Left : ${timeleft}`;
+      if (timeleft <= 0) {
+        clearInterval(timerinterval);
+        endtest();
+      }
+    }, 1000);
+  }
+}
+// Endtest function
+function endtest() {
+  timerelement.textContent = `Time's Up!`;
+  finalscr.textContent = `Final WPM :${calcwpm()}`;
+  writearea.style.display = "none";
+  tryagainbtn.style.display = "block";
+  calcwpm();
+}
+// Calculate word per minute WPM
+function calcwpm() {
+  const wordstyped = totaltyped.trim().split(/\s+/).length;
+  const basewpm = Math.round((wordstyped / 6) * 60);
+  if (basewpm < 30) {
+    finalmessage.textContent = "Really bro? you can do better!😒";
+  }
+  const adjuestedwpm = Math.max(basewpm - errors, 0);
+  return adjuestedwpm;
+}
+//MAIN functionality
 document.addEventListener("keydown", (e) => {
+  starttimer();
   if (e.key === "Backspace") {
     if (currentcharindex > 0) {
       currentcharindex = Math.max(currentcharindex - 1, 0);
@@ -132,14 +173,7 @@ document.addEventListener("keydown", (e) => {
     totaltyped += e.key;
     currentcharindex++;
   }
-  console.log(
-    "e.key",
-    e.key,
-    "totaltyped",
-    totaltyped,
-    "currentcahrindex",
-    currentcharindex
-  );
+
   const textArray = Longtext.split("");
   writearea.innerText = "";
   errors = 0;

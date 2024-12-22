@@ -36,3 +36,10 @@
 span {
   min-width: 14px;
 }
+#final-msg {
+  width: 400px;
+  height: 30px;
+  border: 2px solid cyan;
+  border-radius: 2px;
+  margin: 20px auto;
+}
