@@ -19,18 +19,22 @@ body {
   height: 100vh;
 }
 #text-area {
-  width: 700px;
-  height: 40px;
+  width: 800px;
+  height: auto;
+  margin: 20px auto;
+  line-height: 2rem;
   border: 3px solid #333;
   padding: 10px;
-  margin: 10px auto;
+  white-space: nowrap;
+  background: white;
+
   overflow: hidden;
   border-radius: 0.5rem;
   display: flex;
   align-content: center;
+
   position: relative;
-  font-weight: bolder;
-  text-rendering: optimizeLegibility;
+  /* font-weight: bolder; */
 }
 .correct {
   color: green;
@@ -76,4 +80,16 @@ span {
   #theme2 {
     background-image: linear-gradient(yellow, orange);
   }
+}
+#button {
+  margin: 0.5rem;
+  padding: 0.3rem;
+  border: 2px solid #333;
+  border-radius: 1rem;
+  font-weight: bolder;
+  cursor: pointer;
+  display: none;
+}
+#button:hover {
+  background-color: #9ecaed;
 }

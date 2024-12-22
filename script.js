@@ -118,8 +118,6 @@ let timeleft = 60;
 let timerinterval;
 let typingstarted = false;
 
-writearea.textContent = Longtext;
-
 // Shuffle array function
 function shufflearray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -139,7 +137,7 @@ function starttimer() {
     typingstarted = true;
     timerinterval = setInterval(() => {
       timeleft--;
-      timerelement.textContent = `Time Left : ${timeleft}`;
+      timerelement.textContent = `Time Left : ${timeleft}s`;
       if (timeleft <= 0) {
         clearInterval(timerinterval);
         endtest();
@@ -158,7 +156,7 @@ function endtest() {
 // Calculate word per minute WPM
 function calcwpm() {
   const wordstyped = totaltyped.trim().split(/\s+/).length;
-  const basewpm = Math.round((wordstyped / 6) * 60);
+  const basewpm = Math.round((wordstyped / 60) * 60);
   if (basewpm < 100) {
     finalmessage.textContent = "Really bro? you can do better!😒";
   } else {
@@ -196,8 +194,8 @@ document.addEventListener("keydown", (e) => {
     span.textContent = textArray[i];
     writearea.appendChild(span);
   }
-  if (totaltyped.length >= 20) {
-    const scrollamount = (totaltyped.length - 20) * 14;
+  if (totaltyped.length >= 22) {
+    const scrollamount = (totaltyped.length - 22) * 14;
     writearea.scrollLeft = scrollamount;
   }
 });
@@ -210,7 +208,41 @@ colorchange2.addEventListener("click", () => {
 defaultcolor.addEventListener("click", () => {
   document.body.style.backgroundImage = "linear-gradient(#662D8C , #ED1E79)";
 });
+function reset() {
+  clearInterval(timerinterval);
+  timeleft = 60;
+  timerelement.textContent = `Time Left : ${timeleft}s`;
+  finalscr.textContent = "";
+  writearea.style.display = "block";
+  tryagainbtn.style.display = "none";
+  totaltyped = "";
+  finalmessage.textContent = "";
+  typingstarted = false;
+  currentcharindex = 0;
+  errors = 0;
+  writearea.scrollLeft = 0;
+  Longtext = generatelongtext();
+  init();
+}
 tryagainbtn.addEventListener("click", () => {
+  reset();
   clicksound.currentTime = 0;
   clicksound.play();
 });
+
+function init() {
+  if (ismobile()) {
+    showmobilemsg();
+  } else {
+    writearea.innerText = Longtext;
+    timerelement.textContent = `Time Left : ${timeleft}s`;
+  }
+}
+// tryagainbtn.addEventListener("click", reset);
+function ismobile() {
+  return /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 800;
+}
+function showmobilemsg() {
+  writearea.textContent = "Only for laptop or desktop users";
+}
+init();
