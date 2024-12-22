@@ -106,11 +106,15 @@ const tryagainbtn = document.getElementById("button");
 const timerelement = document.getElementById("timer");
 const finalscr = document.getElementById("final-score");
 const finalmessage = document.getElementById("final-msg");
+const colorchange1 = document.getElementById("theme1");
+const colorchange2 = document.getElementById("theme2");
+const defaultcolor = document.getElementById("default");
+const clicksound = new Audio("sound.mp3");
 let totaltyped = "";
 let currentcharindex = 0;
 let errors = 0;
 let Longtext = generatelongtext();
-let timeleft = 6;
+let timeleft = 60;
 let timerinterval;
 let typingstarted = false;
 
@@ -196,4 +200,17 @@ document.addEventListener("keydown", (e) => {
     const scrollamount = (totaltyped.length - 20) * 14;
     writearea.scrollLeft = scrollamount;
   }
+});
+colorchange1.addEventListener("click", () => {
+  document.body.style.backgroundImage = "linear-gradient(Red, blue)";
+});
+colorchange2.addEventListener("click", () => {
+  document.body.style.backgroundImage = "linear-gradient(yellow, orange)";
+});
+defaultcolor.addEventListener("click", () => {
+  document.body.style.backgroundImage = "linear-gradient(#662D8C , #ED1E79)";
+});
+tryagainbtn.addEventListener("click", () => {
+  clicksound.currentTime = 0;
+  clicksound.play();
 });
