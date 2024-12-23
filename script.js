@@ -157,7 +157,7 @@ function endtest() {
 function calcwpm() {
   const wordstyped = totaltyped.trim().split(/\s+/).length;
   const basewpm = Math.round((wordstyped / 60) * 60);
-  if (basewpm < 100) {
+  if (basewpm < 17) {
     finalmessage.textContent = "Really bro? you can do better!😒";
   } else {
     finalmessage.textContent = "Wow ! nice one 🥳";
